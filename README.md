@@ -8,8 +8,6 @@ A small collection of plugins for the [Noctalia](https://noctalia.dev) desktop s
 | --- | --- | --- | --- |
 | Media Extra | `bobworts/media-extra` | `bar` | Universal MPRIS now-playing widget with configurable layout, album artwork, scrolling text and playback controls. |
 
-See `media-extra/README.md` for settings and details.
-
 ## Installation
 
 Add this repository as a plugin source in Noctalia:
