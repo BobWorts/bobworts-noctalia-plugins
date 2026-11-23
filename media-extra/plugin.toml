@@ -1,0 +1,283 @@
+id = "bobworts/media-extra"
+name = "Media Extra"
+version = "1.0.0"
+plugin_api = 51
+author = "BobWorts"
+license = "Apache-2.0"
+icon = "music"
+description = "A universal MPRIS now-playing widget with layouts, artwork, scrolling text and playback controls."
+tags = ["bar", "media", "music", "mpris"]
+
+[[widget]]
+id = "bar"
+entry = "bar.luau"
+
+[widget.actions]
+left = "none"
+right = "media toggle"
+middle = "media next-player"
+scroll_up = "media next"
+scroll_down = "media previous"
+
+[[setting]]
+key = "layout"
+type = "select"
+label_key = "settings.layout.label"
+description_key = "settings.layout.description"
+default = "art_text_controls"
+options = [
+  { value = "art_text_controls", label_key = "options.art_text_controls" },
+  { value = "art_text", label_key = "options.art_text" },
+  { value = "text_controls", label_key = "options.text_controls" },
+  { value = "art_controls", label_key = "options.art_controls" },
+  { value = "art_only", label_key = "options.art_only" },
+  { value = "text_only", label_key = "options.text_only" },
+  { value = "controls_only", label_key = "options.controls_only" },
+  { value = "custom", label_key = "options.layout.custom" },
+]
+
+[[setting]]
+key = "show_artwork"
+type = "bool"
+label_key = "settings.show_artwork.label"
+default = true
+visible_when = { key = "layout", values = ["custom"] }
+
+[[setting]]
+key = "show_text"
+type = "bool"
+label_key = "settings.show_text.label"
+default = true
+visible_when = { key = "layout", values = ["custom"] }
+
+[[setting]]
+key = "show_controls"
+type = "bool"
+label_key = "settings.show_controls.label"
+default = true
+visible_when = { key = "layout", values = ["custom"] }
+
+[[setting]]
+key = "text_format"
+type = "select"
+label_key = "settings.text_format.label"
+description_key = "settings.text_format.description"
+default = "artist_title"
+options = [
+  { value = "artist_title", label_key = "options.artist_title" },
+  { value = "title_artist", label_key = "options.title_artist" },
+  { value = "title", label_key = "options.title" },
+  { value = "artist", label_key = "options.artist" },
+  { value = "album_title", label_key = "options.album_title" },
+  { value = "custom", label_key = "options.text_format.custom" },
+]
+
+[[setting]]
+key = "text_template"
+type = "string"
+label_key = "settings.text_template.label"
+description_key = "settings.text_template.description"
+default = "{artist} - {title}"
+visible_when = { key = "text_format", values = ["custom"] }
+
+[[setting]]
+key = "text_width"
+type = "int"
+label_key = "settings.text_width.label"
+default = 140
+min = 100
+max = 320
+step = 4
+visible_when = { key = "layout", values = ["art_text_controls", "art_text", "text_controls", "text_only", "custom"] }
+
+[[setting]]
+key = "art_size"
+type = "int"
+label_key = "settings.art_size.label"
+description_key = "settings.art_size.description"
+default = 20
+min = 8
+max = 28
+step = 1
+visible_when = { key = "layout", values = ["art_text_controls", "art_text", "art_controls", "art_only", "custom"] }
+
+[[setting]]
+key = "art_shape"
+type = "select"
+label_key = "settings.art_shape.label"
+default = "rounded"
+options = [
+  { value = "rounded", label_key = "options.rounded" },
+  { value = "circle",  label_key = "options.circle" },
+  { value = "square",  label_key = "options.square" },
+]
+visible_when = { key = "layout", values = ["art_text_controls", "art_text", "art_controls", "art_only", "custom"] }
+
+[[setting]]
+key = "art_gap"
+type = "int"
+label_key = "settings.art_gap.label"
+default = 6
+min = 0
+max = 24
+step = 1
+visible_when = { key = "layout", values = ["art_text_controls", "art_text", "art_controls", "custom"] }
+
+[[setting]]
+key = "placeholder"
+type = "select"
+label_key = "settings.placeholder.label"
+default = "none"
+options = [
+  { value = "none",     label_key = "options.none" },
+  { value = "app_icon", label_key = "options.app_icon" },
+  { value = "glyph",    label_key = "options.glyph" },
+]
+visible_when = { key = "layout", values = ["art_text_controls", "art_text", "art_controls", "art_only", "custom"] }
+
+[[setting]]
+key = "placeholder_glyph"
+type = "glyph"
+label_key = "settings.placeholder_glyph.label"
+default = "music"
+visible_when = { key = "placeholder", values = ["glyph"] }
+
+[[setting]]
+key = "idle_mode"
+type = "select"
+label_key = "settings.idle_mode.label"
+default = "app_icon"
+options = [
+  { value = "app_icon", label_key = "options.app_icon" },
+  { value = "glyph", label_key = "options.glyph" },
+  { value = "hidden", label_key = "options.hidden" },
+]
+
+[[setting]]
+key = "idle_glyph"
+type = "glyph"
+label_key = "settings.idle_glyph.label"
+default = "music"
+visible_when = { key = "idle_mode", values = ["glyph"] }
+
+[[setting]]
+key = "text_scroll"
+type = "select"
+label_key = "settings.text_scroll.label"
+default = "always"
+options = [
+  { value = "always", label_key = "options.always" },
+  { value = "hover",  label_key = "options.hover" },
+  { value = "never",  label_key = "options.never" },
+]
+visible_when = { key = "layout", values = ["art_text_controls", "art_text", "text_controls", "text_only", "custom"] }
+
+[[setting]]
+key = "scroll_speed"
+type = "int"
+label_key = "settings.scroll_speed.label"
+description_key = "settings.scroll_speed.description"
+default = 8
+min = 1
+max = 30
+step = 1
+visible_when = { key = "text_scroll", values = ["always", "hover"] }
+
+[[setting]]
+key = "font_size"
+type = "int"
+label_key = "settings.font_size.label"
+default = 13
+min = 10
+max = 20
+step = 1
+visible_when = { key = "layout", values = ["art_text_controls", "art_text", "text_controls", "text_only", "custom"] }
+
+[[setting]]
+key = "marquee_gap"
+type = "int"
+label_key = "settings.marquee_gap.label"
+description_key = "settings.marquee_gap.description"
+default = 3
+min = 1
+max = 12
+step = 1
+advanced = true
+visible_when = { key = "text_scroll", values = ["always", "hover"] }
+
+[[setting]]
+key = "progress_style"
+type = "select"
+label_key = "settings.progress_style.label"
+default = "none"
+options = [
+  { value = "none", label_key = "options.none" },
+  { value = "bar",  label_key = "options.bar" },
+]
+visible_when = { key = "layout", values = ["art_text_controls", "art_text", "text_controls", "text_only", "custom"] }
+
+[[setting]]
+key = "progress_thickness"
+type = "int"
+label_key = "settings.progress_thickness.label"
+default = 2
+min = 1
+max = 4
+step = 1
+advanced = true
+visible_when = { key = "progress_style", values = ["bar"] }
+
+[[setting]]
+key = "controls_style"
+type = "select"
+label_key = "settings.controls_style.label"
+default = "all"
+options = [
+  { value = "all", label_key = "options.all" },
+  { value = "play_pause", label_key = "options.play_pause" },
+  { value = "prev_next", label_key = "options.prev_next" },
+  { value = "none", label_key = "options.none" },
+]
+visible_when = { key = "layout", values = ["art_text_controls", "text_controls", "art_controls", "controls_only", "custom"] }
+
+[[setting]]
+key = "button_size"
+type = "int"
+label_key = "settings.button_size.label"
+default = 22
+min = 16
+max = 28
+step = 1
+visible_when = { key = "controls_style", values = ["all", "play_pause", "prev_next"] }
+
+[[setting]]
+key = "icon_size"
+type = "int"
+label_key = "settings.icon_size.label"
+default = 16
+min = 10
+max = 20
+step = 1
+visible_when = { key = "controls_style", values = ["all", "play_pause", "prev_next"] }
+
+[[setting]]
+key = "vertical_text_width"
+type = "int"
+label_key = "settings.vertical_text_width.label"
+default = 28
+min = 16
+max = 80
+step = 2
+visible_when = { key = "layout", values = ["art_text_controls", "art_text", "text_controls", "text_only", "custom"] }
+
+[[setting]]
+key = "hide_when_no_media"
+type = "bool"
+label_key = "settings.hide_when_no_media.label"
+default = false
+
+[[setting]]
+key = "hide_when_idle"
+type = "bool"
+label_key = "settings.hide_when_idle.label"
+default = false
